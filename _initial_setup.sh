@@ -23,6 +23,7 @@ sleep 1
 ### 1. Get rid of caches NOT in .venv
 find . -type d ! -path './.venv/*' -name '__pycache__' -exec rm -rf {} +
 find . -type d ! -path './.venv/*' -name '.pytest_cache' -exec rm -rf {} +
+find . -type d ! -path './.venv/*' -name '.mypy_cache' -exec rm -rf {} +
 
 ### 2. Load vars defined in .env
 if [ ! -f $PWD/.env ]; then
