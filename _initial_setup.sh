@@ -44,15 +44,9 @@ fi
 source ./.venv/bin/activate
 
 ### 5. Install package dependencies for project
-if [[ $(pip freeze | diff requirements.txt -) ]]; then
-  echo """${BLU}
-    requirements.txt does not match installations
-    running pip install -r requirements.txt...
-  """
-  sleep 1
-  pip install --upgrade -q -q -q pip
-  pip install -q -r requirements.txt
-fi
+pip install --upgrade -q -q -q pip
+pip install -q -r requirements.vscode.txt
+# pip install -q -r requirements.txt
 
 ### 6. Link git pre-commit-hook script
 ln -fs $PWD/_precommit_hook $PWD/.git/hooks/pre-commit
