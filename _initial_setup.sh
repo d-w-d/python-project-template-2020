@@ -33,7 +33,9 @@ source .env
 
 ### 3. Check for existence of `.venv` dir
 if [[ ! -d $PWD/.venv ]]; then
-  echo "${RED}Virtual Environment Not Found -- Creating '.venv'${WHI}"
+  echo """${BLU}
+    virtual Environment Not Found -- Creating '.venv'
+  """
   $PYTHON_3_5_OR_HIGHER -m venv .venv
 fi
 
@@ -41,12 +43,21 @@ fi
 source ./.venv/bin/activate
 
 ### 5. Install package dependencies for project
-if [[ $1 == 'pip' ]]; then
-  # Specify 'pip' to use pip install
-  echo "Installing dependencies with pip"
-  pip install --upgrade pip
-  pip install -r requirements.txt
+if [[ $(pip freeze | diff requirements.txt -) ]]; then
+  echo """${BLU}
+    requirements.txt does not match installations
+    running pip install -r requirements.txt...
+  """
+  sleep 1
+  pip install --upgrade -q -q -q pip
+  pip install -q -r requirements.txt
 fi
 
 ### 6. Link git pre-commit-hook script
 ln -fs $PWD/_precommit_hook $PWD/.git/hooks/pre-commit
+
+### 7. Final Message
+echo """${BLU}
+    Done. Bon courage!
+ ${WHI}
+ """
